@@ -1,0 +1,157 @@
+{
+  "name": "working-env",
+
+  // ---- コンテナ定義: docker-compose.yml に委譲 ----
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "working-env",
+  "workspaceFolder": "/work/main",
+
+  // ---- VS Code 設定 ----
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        // AI Coding Agents
+        "anthropic.claude-code",
+
+        // React / TypeScript
+        "jcyovera.jconsoftware-extension-pack",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+
+        // Python
+        "ms-python.python",
+        "ms-python.black-formatter",
+        "ms-python.isort",
+        "ms-python.mypy-type-checker",
+
+        // Git関連
+        "donjayamanne.githistory",
+        "mhutchie.git-graph",
+
+        // 細かな改善（全角スペース表示、スペルチェッカーなど）
+        "mosapride.zenkaku",
+        "streetsidesoftware.code-spell-checker",
+        "christian-kohler.path-intellisense"
+      ],
+      // VS Code 内設定
+      "settings": {
+        "editor.renderWhitespace": "boundary",
+        "editor.tabSize": 2,
+        // TypeScript / JavaScript
+        "[typescript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode",
+          "prettier.printWidth": 160,
+          "prettier.singleQuote":true,
+          "prettier.trailingComma": "all",
+          "editor.formatOnSave": true,
+          "editor.formatOnSaveMode": "file",
+          "files.insertFinalNewline": true,
+          "files.trimFinalNewlines": true,
+          "files.trimTrailingWhitespace": true,
+          "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit",
+            "source.fixAll.eslint": "explicit"
+          }
+        },
+        "[typescriptreact]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode",
+          "prettier.printWidth": 160,
+          "prettier.singleQuote":true,
+          "prettier.trailingComma": "all",
+          "editor.formatOnSave": true,
+          "editor.formatOnSaveMode": "file",
+          "files.insertFinalNewline": true,
+          "files.trimFinalNewlines": true,
+          "files.trimTrailingWhitespace": true,
+          "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit",
+            "source.fixAll.eslint": "explicit"
+          }
+        },
+        "[javascript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode",
+          "prettier.printWidth": 160,
+          "prettier.singleQuote":true,
+          "prettier.trailingComma": "all",
+          "editor.formatOnSave": true,
+          "editor.formatOnSaveMode": "file",
+          "files.insertFinalNewline": true,
+          "files.trimFinalNewlines": true,
+          "files.trimTrailingWhitespace": true,
+          "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit",
+            "source.fixAll.eslint": "explicit"
+          }
+        },
+        "[javascriptreact]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode",
+          "prettier.printWidth": 160,
+          "prettier.singleQuote":true,
+          "prettier.trailingComma": "all",
+          "editor.formatOnSave": true,
+          "editor.formatOnSaveMode": "file",
+          "files.insertFinalNewline": true,
+          "files.trimFinalNewlines": true,
+          "files.trimTrailingWhitespace": true,
+          "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit",
+            "source.fixAll.eslint": "explicit"
+          }
+        },
+        // JSON
+        "[json]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode",
+          "editor.formatOnSave": true,
+          "editor.formatOnSaveMode": "file",
+          "files.insertFinalNewline": true,
+          "files.trimFinalNewlines": true,
+          "files.trimTrailingWhitespace": true,
+          "editor.codeActionsOnSave": {
+            "source.fixAll.eslint": "explicit"
+          }
+        },
+
+        // Python
+        "[python]": {
+          "editor.tabSize": 4,
+          "editor.defaultFormatter": "ms-python.black-formatter",
+          "editor.formatOnSave": true,
+          "editor.formatOnSaveMode": "file",
+          "files.insertFinalNewline": true,
+          "files.trimFinalNewlines": true,
+          "files.trimTrailingWhitespace": true,
+          "editor.codeActionsOnSave": {
+            "source.unusedImports": "explicit",
+            "source.organizeImports": "always"
+          }
+        },
+        // Python固有設定
+        "black-formatter.args": ["--line-length", "120"],
+        "isort.args": ["--profile", "black", "--line-length", "120"],
+        "python.languageServer": "Pylance",
+        "python.analysis.typeCheckingMode": "basic",
+        "python.analysis.autoImportCompletions": true,
+        "python.analysis.importFormat": "absolute"
+      }
+    }
+  },
+
+  // ---- ポートフォワード ----
+  // docker-compose.yml の ports に加え、VS Code の通知制御のみここで行う
+  "forwardPorts": [5173, 8000, 20022],
+  "portsAttributes": {
+    "5173": { "label": "Frontend (Vite)", "onAutoForward": "notify" },
+    "8000": { "label": "Backend API",     "onAutoForward": "notify" },
+    "20022": { "label": "OpenSSH Server", "onAutoForward": "notify" }
+  },
+
+  // ---- コンテナ初期構築時の処理 ----
+  "postCreateCommand": "bash ../shared/.devcontainer/postCreateCommand.sh",
+
+  // ---- コンテナ起動後に実行 ----
+  "postStartCommand": "bash ../shared/.devcontainer/postStartCommand.sh",
+
+  // ---- 実行ユーザー ----
+  "remoteUser": "ubuntu"
+}
